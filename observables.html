@@ -1,0 +1,40 @@
+<!--Observables are not Native action of javascript-->
+<!--It is from Rxjs-->
+
+<html lang="en">
+<head> <title> Observables </title> </head>
+<body>
+ <h1 id="text-observables" > Observables will Happen here </h1>
+ <button id="btn-observables"> Observables </button>
+
+ <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/6.3.3/rxjs.umd.min.js"></script>-->
+ <script src="https://npmcdn.com/@reactivex/rxjs@5.0.0-beta.8/dist/global/Rx.umd.js"></script>
+
+
+ <script>
+
+  let setText = text => {
+        document.querySelector('#text-observables').textContent = text
+     };
+
+     let checkAuth = () => {
+         return Rx.Observable.create(observer => {
+          setText('Fetching User......');
+          setTimeout(()=>{ observer.next(true) }, 2000);
+         })
+     };
+
+     let fetchUser = () => {
+         return Rx.Observable.create(observer => {
+          setText('Fetching User......');
+          setTimeout(()=>{ observer.next({name: 'Bharath'}) }, 2000);
+         })
+     };
+
+     Rx.Observable.fromEvent(document.querySelector('#btn-observables'), 'click')
+                  .switchMap(event => checkAuth())
+                  .switchMap( isAuth => {if(isAuth) return fetchUser()})
+                  .subscribe( user => { setText( user.name ) } )
+ </script>
+</body>
+</html>
