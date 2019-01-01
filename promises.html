@@ -1,0 +1,39 @@
+<!--Promises are Native action of javascript-->
+<!--Promises is use to escape from callback hell-->
+
+<!--If deep nested process happens promises are very helpful and we can easily understood the code-->
+<!--but callback hell gives us the clumsy of code & hard to understand the code-->
+<html lang="en">
+<head> <title> Promises </title> </head>
+<body>
+ <h1 id="text-promise" > Promises will Happen here </h1>
+ <button id="btn-promise"> Promise </button>
+
+ <script>
+     let setText = text => {
+        document.querySelector('#text-promise').textContent = text
+     };
+
+     let checkAuth = () => {
+         return new Promise((resolve, reject) => {
+            setText('Verifying User......');
+            setTimeout(()=>{ resolve(true) }, 2000);
+         });
+     };
+
+     let fetchUser = () => {
+         return new Promise((resolve, reject) => {
+             setText('Fetching User......');
+             setTimeout(()=>{ resolve({name: 'Bharath'}) }, 2000);
+         });
+     };
+
+     document.querySelector('#btn-promise')
+             .addEventListener('click', () => {
+                 checkAuth()
+                     .then( isAuth => {if(isAuth) return fetchUser()})
+                     .then( user => { setText( user.name ) } )
+             });
+ </script>
+</body>
+</html>
